@@ -1,13 +1,32 @@
 # Logist-regression
-Pattern Recognition Assignment 1
+Pattern Recognition Assignment 1 using Python
 
 
-## 资料集
+## Data Set
 
 https://archive.ics.uci.edu/ml/datasets/Heart+failure+clinical+records
 
+This dataset contains the medical records of 299 patients who had heart failure, collected during their follow-up period, where each patient profile has 13 clinical features.
 
-## 所使用的套件
+Attribute Information:
+
+- age: age of the patient (years)
+- anaemia: decrease of red blood cells or hemoglobin (boolean)
+- high blood pressure: if the patient has hypertension (boolean)
+- creatinine phosphokinase (CPK): level of the CPK enzyme in the blood (mcg/L)
+- diabetes: if the patient has diabetes (boolean)
+- ejection fraction: percentage of blood leaving the heart at each contraction (percentage)
+- platelets: platelets in the blood (kiloplatelets/mL)
+- sex: woman or man (binary)
+- serum creatinine: level of serum creatinine in the blood (mg/dL)
+- serum sodium: level of serum sodium in the blood (mEq/L)
+- smoking: if the patient smokes or not (boolean)
+- time: follow-up period (days)
+- [target] death event: if the patient deceased during the follow-up period (boolean)
+
+
+
+## Package used
 
 ```
 import pandas as pd
@@ -17,126 +36,54 @@ import seaborn as sns
 from sklearn.model_selection import train_test_split
 ```
 
-## 汇入资料和资料检查
-```
-data = pd.read_csv("heart_failure_clinical_records_dataset.csv")
-print(data.head())
-print(data.isnull().any()) 
-
-```
-查看前五笔资料形态
-
-![GITHUB](https://github.com/a24525193/Logist-regression/blob/main/data_head.PNG "data_head")
-
-检查是否有缺失值，结果并无缺失值
-
-![GITHUB](https://github.com/a24525193/Logist-regression/blob/main/data_isnull_any.PNG "data_isnull_any")
 
 
+## Pre-analysis
 
-## 热度图
-检查所有特征值的相关系数，进而选择想要的特征
+The data is imported as dataframe, and there is no missing value.
 
-```
-#heatmap
-plt.figure(figsize=(15, 12))
-feature_corr = data.corr()
-hm = sns.heatmap(feature_corr, annot=True)
-plt.show()
-```
+Check the correlation coefficient of the target value with the heat map, then select the features.
 
 ![GITHUB](https://github.com/a24525193/Logist-regression/blob/main/heatmap.png "heatmap")
 
-最后选择与DEATH_EVENT相关系数最高的TIME和较好分辨的AGE，将以这两个特征做逻辑斯回归分类，来预测死亡事件是否发生
+Finally, I choose 'TIME' with the highest correlation coefficient with DEATH_EVENT and 'AGE' with better resolution.
+
+Logistic regression classification will be made based on these two characteristics to predict whether the death event occurs
 
 
 
 
-## 训练和预测
+## Training and Prediction
 
-将X和Y以8:2的比例，分出训练集和测试集
+Set 'TIME' and 'AGE' to X,
+'DEATH_ EVENT' is set to y, and then X and y are divided into training set and test set at a ratio of 8:2.
 
-```
-X = data[["age", "time"]].values
-y = data[["DEATH_EVENT"]].values
+And use sklearn's logistic regression package to train the model.
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=345453)
-```
+Finally, the prediction results show that precision and F1 score reaches 0.88.
 
-用逻辑斯回归训练模型
-```
-#training 
-from sklearn.linear_model import LogisticRegression
-classifier = LogisticRegression(random_state=0)
-classifier.fit(X_train, y_train)
-y_pred = classifier.predict(X_test)
-```
-计算预测结果
-```
-#score
-from sklearn.metrics import classification_report
-print(classification_report(y_test, y_pred))
-```
 
-![GITHUB](https://github.com/a24525193/Logist-regression/blob/main/accuracy.PNG "accuracy")
 
-F1-score达到0.88
+## Create Plot
 
-## 绘图
 
-建制图表，放入特征值
-```
-plt.figure(figsize=(10, 8))
-plt.scatter(data["time"],data["age"] ,s = 60 , c=y)
-```
-### 绘制决策边界
-创建方法，设定最大值和最小值，并附加边缘填充
-```
-def plot_decision_boundary(m):
+Create scatter chart and put in the two features.
 
-    #set max value, min value and edge filling
-    x_min  = data["time"].min() - .5
-    x_max  = data["time"].max() + .5
 
-    y_min = data["age"].min() - .5
-    y_max = data["age"].max() + .5
-    
-    h = 0.02
 
-    xx, yy = np.meshgrid(np.arange(x_min, x_max, h), np.arange(y_min, y_max, h))
-```
+> Decision boundary
 
-使用预测方法进行预测
-```
-    #use prediction function to predict
-    Z = m(np.c_[xx.ravel(), yy.ravel()])
-    Z = Z.reshape(xx.shape)
-```
-画出决策边界，并将显示图标和颜色分别标示，以便更明显的区分
-```
-    #plot
-    plt.contourf(xx, yy, Z)
+1. Create a function, set the maximum and minimum values, and attach the edge filling.
 
-    for i in range(data.shape[0]):
-        if y[i] == 1:
-            died = plt.scatter(data.time[i],data.age[i],marker = "x", s = 40 , color = "green")
-        
-        else:
-            alive = plt.scatter(data.time[i],data.age[i],marker = "o", s = 40 , color = "blue")
-    
-    plt.legend((died,alive),('1','0'),title= "DEATH_EVENT")
-    
-plot_decision_boundary(lambda x: classifier.predict(x))
-```
-调整一下图表显示内容，并输出图表
-```
-plt.xlabel('Time')  
-plt.ylabel('Age') 
-plt.title("Logistic Regression")
-plt.show()
-```
-最后图表输出结果
+1. Use prediction function to predict
+
+1. Draw the decision boundary in the plot
+
+Mark the display icon to 'o' and 'x', and also change the color to green and blue. In order to separately the classification for more obvious distinction.
+
+
+## Final output results
+
 ![GITHUB](https://github.com/a24525193/Logist-regression/blob/main/result1.png "plotresult")
 
 可以看出时间对于死亡的影响非常的大，我觉得最后分类还是分的挺好的
-
