@@ -58,7 +58,7 @@ Logistic regression classification will be made based on these two characteristi
 Set 'TIME' and 'AGE' to X,
 'DEATH_ EVENT' is set to y, and then X and y are divided into training set and test set at a ratio of 8:2.
 
-And use sklearn's logistic regression package to train the model.
+Create a Classification. Use sklearn's logistic regression package to train the model. Then get the predicted model. Make predictions on testing data.
 
 Finally, the prediction results show that precision and F1 score reaches 0.88.
 
@@ -86,12 +86,12 @@ Mark the display icon to 'o' and 'x', and also change the color to green and blu
 
 ![GITHUB](https://github.com/a24525193/Logist-regression/blob/main/result1.png "plotresult")
 
-The plot shows the logistic regression after classification by time and age. The X axis is time. The Y axis is age. The icon of 1 in the death event is set as green 'x', the icon of 2 is set as blue 'o'. The purple area and yellow area are used as the classification blocks.
+The plot shows the logistic regression after classification by time and age. The X axis is time. The Y axis is age. The icon of 1 in the death event is set as green 'x', the icon of 2 is set as blue 'o'. The purple and yellow areas are used as the classification blocks.
 
 
 
-According to the final classification results. The slope is high. Which means that time has a great impact on the death events, while age has a relatively small impact on the death events.
+Judging from the final classification results. The slope is very high. Which means that time has a great impact on the death events, while age has a relatively small impact on the death events.
 
 
 
-I think the classification results may not be ideal if we only use two features for logistic regression analysis. If we can use multiple regression model to make it, I believe that the classification results will be closer to the ideal results
+I think the classification results may not be ideal if we only use two features for logistic regression analysis. If possible, maybe can use a multiple regression model to make a model. I believe that the classification results will be closer to the ideal results.
