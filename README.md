@@ -86,4 +86,12 @@ Mark the display icon to 'o' and 'x', and also change the color to green and blu
 
 ![GITHUB](https://github.com/a24525193/Logist-regression/blob/main/result1.png "plotresult")
 
-可以看出时间对于死亡的影响非常的大，我觉得最后分类还是分的挺好的
+The plot shows the logistic regression after classification by time and age. The X axis is time. The Y axis is age. The icon of 1 in the death event is set as green 'x', the icon of 2 is set as blue 'o'. The purple area and yellow area are used as the classification blocks.
+
+
+
+According to the final classification results. The slope is high. Which means that time has a great impact on the death events, while age has a relatively small impact on the death events.
+
+
+
+I think the classification results may not be ideal if we only use two features for logistic regression analysis. If we can use multiple regression model to make it, I believe that the classification results will be closer to the ideal results
